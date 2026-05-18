@@ -1,0 +1,27 @@
+# CSV — datos de entrada y reportes generados
+*.csv
+
+# Caché local de precios históricos
+.price_cache.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Entornos y secretos
+.env
+*.key
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+.DS_Store

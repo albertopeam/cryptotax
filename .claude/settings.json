@@ -1,0 +1,33 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path // \"\"'); if echo \"$file\" | grep -qE '(^|/)\\.env$'; then echo '{\"systemMessage\":\"Blocked: attempt to read .env file.\",\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Reading .env files is not allowed.\"}}'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.tool_input.command // \"\"'); if echo \"$cmd\" | grep -qE '(^|[^a-zA-Z0-9_])\\.env([^a-zA-Z0-9_]|$)'; then echo '{\"systemMessage\":\"Blocked: attempt to read .env file.\",\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Reading .env files is not allowed.\"}}'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Grep",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); path=$(echo \"$input\" | jq -r '.tool_input.path // \"\"'); if echo \"$path\" | grep -qE '(^|/)\\.env$'; then echo '{\"systemMessage\":\"Blocked: attempt to read .env file.\",\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Reading .env files is not allowed.\"}}'; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
